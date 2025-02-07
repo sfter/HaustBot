@@ -109,7 +109,7 @@ const main = async () => {
         await claimFaucet(wallet.address, proxies);
         await sleep(1000)
         await mintNFT(wallet.privateKey, RPC_URL);
-        await sleep(10 * 60 * 1000)
+        await sleep(20 * 60 * 1000)
     }
 
     // const tasks = wallets.map((wallet) => {
