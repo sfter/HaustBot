@@ -4,6 +4,8 @@ import log from "./utils/logger.js";
 import iniBapakBudi from "./utils/banner.js";
 import { HttpsProxyAgent } from 'https-proxy-agent';
 import { SocksProxyAgent } from 'socks-proxy-agent';
+import mintNFT from './utils/mintNFT.js';
+const RPC_URL = 'https://rpc-testnet.haust.app';
 
 export async function readWallets() {
     try {
@@ -36,7 +38,7 @@ export async function readProxies() {
 }
 
 const claimFaucet = async (address, proxies) => {
-    const maxRetries = 20;
+    const maxRetries = 3;
     let attempt = 0;
     let currentProxy = getRandomProxy(proxies);
 
@@ -103,22 +105,33 @@ const main = async () => {
         return;
     }
 
-    const tasks = wallets.map((wallet) => {
-        if (proxies.length > 0) {
-            log.info(`Starting claim process for wallet: ${wallet.address}`);
-        } else {
-            log.warn(`No proxies available for wallet: ${wallet.address}. Proceeding without a proxy.`);
-        }
-
-        return claimFaucet(wallet.address, proxies);
-    });
-
-    try {
-        await Promise.all(tasks);
-        log.info("All wallet claims processed.");
-    } catch (error) {
-        log.error("Error processing wallet claims:", error.message);
+    for (const wallet of wallets) {
+        await claimFaucet(wallet.address, proxies);
+        await sleep(1000)
+        await mintNFT(wallet.privateKey, RPC_URL);
+        await sleep(10 * 60 * 1000)
     }
+
+    // const tasks = wallets.map((wallet) => {
+    //     if (proxies.length > 0) {
+    //         log.info(`Starting claim process for wallet: ${wallet.address}`);
+    //     } else {
+    //         log.warn(`No proxies available for wallet: ${wallet.address}. Proceeding without a proxy.`);
+    //     }
+
+    //     return claimFaucet(wallet.address, proxies);
+    // });
+
+    // try {
+    //     await Promise.all(tasks);
+    //     log.info("All wallet claims processed.");
+    // } catch (error) {
+    //     log.error("Error processing wallet claims:", error.message);
+    // }
 };
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 main();
