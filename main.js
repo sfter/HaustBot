@@ -111,7 +111,7 @@ const main = async () => {
         await mintNFT1(wallet.privateKey, RPC_URL);
         await sleep(60 * 1000)
         await mintNFT2(wallet.privateKey, RPC_URL);
-        await sleep(20 * 60 * 1000)
+        await sleep(3 * 60 * 1000)
     }
 
     // const tasks = wallets.map((wallet) => {
