@@ -105,13 +105,17 @@ const main = async () => {
         return;
     }
 
-    for (const wallet of wallets) {
-        await claimFaucet(wallet.address, proxies);
-        await sleep(60 * 1000)
-        await mintNFT1(wallet.privateKey, RPC_URL);
-        await sleep(60 * 1000)
-        await mintNFT2(wallet.privateKey, RPC_URL);
-        await sleep(3 * 60 * 1000)
+    for (let i=0; i < 3; i++) {
+
+        for (const wallet of wallets) {
+            await claimFaucet(wallet.address, proxies);
+            await sleep(60 * 1000)
+            await mintNFT1(wallet.privateKey, RPC_URL);
+            await sleep(60 * 1000)
+            await mintNFT2(wallet.privateKey, RPC_URL);
+            await sleep(3 * 60 * 1000)
+        }
+
     }
 
     // const tasks = wallets.map((wallet) => {
