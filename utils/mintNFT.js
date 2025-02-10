@@ -2,6 +2,8 @@ import log from "./logger.js"
 import { ethers } from 'ethers';
 
 const NFT_CONTRACT_ADDRESS = '0x6B3f185C4c9246c52acE736CA23170801D636c8E';
+const NFT_CONTRACT_ADDRESS2 = '0x28e50a3632961da179b2afca4675714ea22e7bb7';
+
 
 const NFT_ABI = [
     {
@@ -16,13 +18,21 @@ const NFT_ABI = [
 const MAX_RETRIES = 3;
 const TIMEOUT_MS = 60000;
 
-async function mintNFT(privateKey, rpcUrl) {
+async function mintNFT1(privateKey, rpcUrl) {
+    await mintNFT(NFT_CONTRACT_ADDRESS, privateKey, rpcUrl)
+}
+
+async function mintNFT2(privateKey, rpcUrl) {
+    await mintNFT(NFT_CONTRACT_ADDRESS2, privateKey, rpcUrl)
+}
+
+async function mintNFT(nft_contract_address, privateKey, rpcUrl) {
     try {
         const provider = new ethers.JsonRpcProvider(rpcUrl);
         const wallet = new ethers.Wallet(privateKey, provider);
-        const contract = new ethers.Contract(NFT_CONTRACT_ADDRESS, NFT_ABI, wallet);
+        const contract = new ethers.Contract(nft_contract_address, NFT_ABI, wallet);
 
-        log.info(`Starting NFT minting process...`);
+        log.info(`Starting NFT minting process...  ${nft_contract_address}`);
 
         const feeData = await provider.getFeeData();
         if (!feeData.gasPrice) throw new Error("Failed to fetch gas price");
@@ -66,4 +76,4 @@ async function mintNFT(privateKey, rpcUrl) {
     }
 }
 
-export default mintNFT;
+export { mintNFT1, mintNFT2 };
