@@ -4,7 +4,7 @@ import log from "./utils/logger.js";
 import iniBapakBudi from "./utils/banner.js";
 import { HttpsProxyAgent } from 'https-proxy-agent';
 import { SocksProxyAgent } from 'socks-proxy-agent';
-import {mintNFT1, mintNFT2} from './utils/mintNFT.js';
+import {mintNFT1, mintNFT2, mintNFT3} from './utils/mintNFT.js';
 const RPC_URL = 'https://rpc-testnet.haust.app';
 
 export async function readWallets() {
@@ -114,6 +114,8 @@ const main = async () => {
             await sleep(60 * 1000)
             await mintNFT2(wallet.privateKey, RPC_URL);
             await sleep(5 * 60 * 1000)
+            await mintNFT3(wallet.privateKey, RPC_URL);
+            await sleep(5 * 60 * 1000)     
         }
 
     }

@@ -3,6 +3,7 @@ import { ethers } from 'ethers';
 
 const NFT_CONTRACT_ADDRESS = '0x6B3f185C4c9246c52acE736CA23170801D636c8E';
 const NFT_CONTRACT_ADDRESS2 = '0x28e50a3632961da179b2afca4675714ea22e7bb7';
+const NFT_CONTRACT_ADDRESS3 = '0xdaF34a049EfAa3cc9ad4635D8A710Fae819aca5c';
 
 
 const NFT_ABI = [
@@ -24,6 +25,10 @@ async function mintNFT1(privateKey, rpcUrl) {
 
 async function mintNFT2(privateKey, rpcUrl) {
     await mintNFT(NFT_CONTRACT_ADDRESS2, privateKey, rpcUrl)
+}
+
+async function mintNFT3(privateKey, rpcUrl) {
+    await mintNFT(NFT_CONTRACT_ADDRESS3, privateKey, rpcUrl)
 }
 
 async function mintNFT(nft_contract_address, privateKey, rpcUrl) {
@@ -76,4 +81,4 @@ async function mintNFT(nft_contract_address, privateKey, rpcUrl) {
     }
 }
 
-export { mintNFT1, mintNFT2 };
+export { mintNFT1, mintNFT2, mintNFT3 };
